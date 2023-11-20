@@ -8,7 +8,7 @@ const connectDb = async() => {
         if(makeConnection) console.log('DB is connected!!');
     }catch(error){
         console.log('something went wrong unable to connect DB');
-        console.log(err)
+        console.log(error)
         process.exit(1);
     }
 }
