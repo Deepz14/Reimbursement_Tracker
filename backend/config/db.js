@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
-const config = require('./default.json');
-const db = config.mongoURI;
 
 const connectDb = async() => {
     try{
-        const makeConnection = await mongoose.connect(db);
+        const makeConnection = await mongoose.connect(process.env.MONGODB_ATLAS_URL);
         if(makeConnection) console.log('DB is connected!!');
     }catch(error){
         console.log('something went wrong unable to connect DB');

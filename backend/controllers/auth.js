@@ -5,6 +5,7 @@ const createUser = async(req, res) => {
     
     try{
         const { name, email, password } = req.body;
+        console.log("request body: ", name, email, password);
         if (!name || !email || !password) {
             throw new Error('Name, Emmail and Password are required');
         }    
