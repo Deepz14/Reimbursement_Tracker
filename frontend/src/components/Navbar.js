@@ -31,20 +31,23 @@ const Navbar = () => {
 
 
     return (
-        <div className="w-full border border-gray-300">
+        <div className="w-full border border-gray-300 shadow">
             <nav className="flex items-center justify-between">
                 <a className="flex items-center w-[180px]">
                     <img className="h-13 w-16" alt="nav-logo" src={NavLogo} />
                     <span className="pt-2 text-sm">Reimbursement Tracker</span>
                 </a>
-                <ul className="border border-gray-300 mr-5">
                     {
                         (user?.uId || getUserFromSessionStorage?.uId) &&
-                        (
-                            <li><button onClick={logout} className="px-3 py-1 text-sm rounded-md hover:text-red-600">Log out</button></li>
-                        )
+                        <ul className="flex items-center justify-around mr-5 w-[200px] cursor-pointer">
+                            <li>
+                                <p className="text-sm hover:text-blue-600">Add Record</p>
+                            </li>
+                            <li>
+                                <button onClick={logout} className="px-3 py-1 text-sm border border-gray-300 rounded hover:text-red-600">Log out</button>
+                            </li>
+                        </ul>
                     }
-                </ul>
             </nav>
         </div>
     )
