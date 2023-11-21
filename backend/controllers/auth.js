@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const cookieToken = require('../utils/cookieToken');
 
 const createUser = async(req, res) => {
     
@@ -15,7 +15,7 @@ const createUser = async(req, res) => {
             name, email, password
         });
 
-        res.status(200).json({ success: true, user});
+        cookieToken(user, res);
     }catch(error){
         console.log("error: ", error)
         res.status(400).send({error: error?.message});
@@ -47,15 +47,34 @@ const Login = async(req, res) => {
             throw new Error('Email or Password is incorrect');
         }
         
-        res.status(200).json({ success: true, user});
+        cookieToken(user, res);
 
     } catch (error) {
         res.status(400).send({error: error.message});
     }
 }
 
+const Logout = (req, res) => {
+    try {
+        // cookie options
+        const options = {
+            expires: new Date(Date.now()),
+            httpOnly: true
+        }
+
+        res.cookie('token', null, options);
+        res.status(200).json({
+            success: true,
+            message: 'Logged out successfully'
+        });
+
+    } catch (err) {
+        res.status(400).send({error: err.message});
+    }
+}
 
 module.exports = {
     createUser,
-    Login
+    Login,
+    Logout
 }

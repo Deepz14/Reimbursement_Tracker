@@ -7,10 +7,26 @@ const Navbar = () => {
     const getUserFromSessionStorage = JSON.parse(sessionStorage.getItem('user'));
     const dispatch = useDispatch();
 
-    const handlerLogout = () => {
-        sessionStorage.clear();
-        dispatch(remove());
+    const logout = () => {
+        handlerLogout();
     }
+
+    const handlerLogout = async() => {
+        const payload = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        };
+        const userLogout = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/auth/logout/', payload);
+        const response = await userLogout.json();
+        console.log("response: ", response);
+        if(response?.success){
+            sessionStorage.clear();
+            dispatch(remove());
+        }else{
+            // error handling
+        }
+    }
+
 
     return (
         <div className="w-full border border-gray-300">
@@ -23,7 +39,7 @@ const Navbar = () => {
                     {
                         (user?.uId || getUserFromSessionStorage?.uId) &&
                         (
-                            <li><button onClick={handlerLogout} className="px-3 py-1 text-sm rounded-md hover:text-red-600">Log out</button></li>
+                            <li><button onClick={logout} className="px-3 py-1 text-sm rounded-md hover:text-red-600">Log out</button></li>
                         )
                     }
                 </ul>
