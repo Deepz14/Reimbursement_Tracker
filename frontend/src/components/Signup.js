@@ -1,9 +1,11 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const name = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
+    const navigate = useNavigate();
 
     const signUp = () => {
         createUserHandler();
@@ -30,12 +32,14 @@ const SignUp = () => {
                 <input ref={email} className="border border-gray-300 w-full md:p-2 p-3" type="email" placeholder="Enter email" />
             </div>
             <div className="my-3 py-2 mx-3 px-3">
-                <input ref={password} className="border border-gray-300 w-full md:p-2 p-3" type="password" placeholder="Enter Password" />
+                <input ref={password} className="border border-gray-300 w-full md:p-2 p-3" type="password" placeholder="Enter password" />
             </div>
             <div className="my-3 py-2 mx-3 px-3">
                 <button onClick={signUp} className="border border-gray-300 w-full md:p-2 p-3">SIGN UP</button>
             </div>
-            <p className="my-3 py-2 mx-3 px-3 text-center">Already have an account? <span>Login</span></p>
+            <p className="my-3 py-2 mx-3 px-3 text-center text-sm cursor-pointer">Already have an account? 
+                <span onClick={() => navigate("/auth/login")} className="hover:text-blue-600"> Login</span>
+            </p>
         </div>
     )
 }
