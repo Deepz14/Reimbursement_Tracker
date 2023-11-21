@@ -15,7 +15,7 @@ const SignUp = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: name.current.value, email: email.current.value, password: password.current.value })
         };
-        const userCreate = await fetch("http://localhost:4500/api/auth/createuser/", payload);
+        const userCreate = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/auth/createuser/', payload);
         const response = await userCreate.json();
         console.log("response: ", response);
     }
