@@ -1,10 +1,22 @@
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+
 const AddExpense = () => {
+    const [empName, setEmpName] = useState(null);
+    const userData = useSelector((state) => state.user);
+
+    useEffect(() => {
+        const isAuthUser = JSON.parse(sessionStorage.getItem('user'));
+        if(userData || isAuthUser?.uId){
+            setEmpName(isAuthUser?.name);
+        }
+    }, []);
     return (
         <div>
             <div className="border border-black-300 rounded md:my-10 mt-12 md:top-0 md:w-1/3 md:mx-auto">
                 <h1 className="font-bold text-2xl text-center my-5 md:text-xl">Add Expense</h1>
                 <div className="my-3 py-2 mx-3 px-3">
-                    <input className="border border-gray-300 w-full md:p-2 p-3" type="text" placeholder="Employee Name" />
+                    <input className="border border-gray-300 rounded w-full md:p-2 p-3" type="text" value={empName} placeholder="Employee Name" disabled />
                 </div>
                 <div className="my-3 py-2 mx-3 px-3">
                     <select className="border border-gray-300 rounded  w-full md:p-2 p-3">
