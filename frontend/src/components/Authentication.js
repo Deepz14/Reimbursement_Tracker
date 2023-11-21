@@ -1,11 +1,9 @@
-// import Login from "./Login"
-import SignUp from "./Signup"
+import { Outlet } from "react-router-dom";
 
 const Authentication = () => {
     return (
         <div className="w-full">
-            <SignUp />
-            {/* <Login /> */}
+            <Outlet />
         </div>
     )
 }
