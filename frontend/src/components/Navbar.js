@@ -1,12 +1,13 @@
 import NavLogo from "../../src/logo.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../store/userSlice";
-import { redirect  } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user);
     const getUserFromSessionStorage = JSON.parse(sessionStorage.getItem('user'));
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const logout = () => {
         handlerLogout();
@@ -23,7 +24,7 @@ const Navbar = () => {
         if(response?.success){
             sessionStorage.clear();
             dispatch(remove());
-            redirect("/auth");
+            navigate("/auth");
         }else{
             // error handling
         }
@@ -39,12 +40,15 @@ const Navbar = () => {
                 </a>
                     {
                         (user?.uId || getUserFromSessionStorage?.uId) &&
-                        <ul className="flex items-center justify-around mr-5 w-[200px] cursor-pointer">
+                        <ul className="flex items-center justify-around mr-5 w-[260px] cursor-pointer">
                             <li>
-                                <p className="text-sm hover:text-blue-600">Add Record</p>
+                                <p onClick={() => navigate("/")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-blue-600 hover:text-white hover:border-0">Home</p>
                             </li>
                             <li>
-                                <button onClick={logout} className="px-3 py-1 text-sm border border-gray-300 rounded hover:text-red-600">Log out</button>
+                                <p onClick={() => navigate("/addexpense")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-green-600 hover:text-white hover:border-0">Add Expense</p>
+                            </li>
+                            <li>
+                                <button onClick={logout} className="px-3 py-1 text-sm border border-gray-500 rounded hover:bg-red-600 hover:text-white hover:border-0">Log out</button>
                             </li>
                         </ul>
                     }

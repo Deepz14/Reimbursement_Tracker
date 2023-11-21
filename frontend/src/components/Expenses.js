@@ -2,7 +2,7 @@
 
 const Expenses = () => {
     return (
-        <div className="w-[100vw] overflow-x-scroll">
+        <div className="w-[100vw] overflow-x-scroll md:overflow-x-hidden">
             <div className="mt-5 md:mx-5 md:px-3">
                 <h1 className="font-bold text-lg my-1">Expenses</h1>
                 <table className="w-[100%] ">

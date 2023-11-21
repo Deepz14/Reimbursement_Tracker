@@ -5,15 +5,17 @@ import SignUp from "./Signup";
 import Login from "./Login";
 import Expenses from './Expenses';
 import ProtectedRoute from "../hooks/useProtectedRoute";
+import AddExpense from "./AddExpense";
 
 const Body = () => {
     return (
         <div>
-            <Navbar />
             <Router>
+                <Navbar />
                 <Routes>
                     <Route element={<ProtectedRoute />}>
                         <Route exact path="/" element={<Expenses />}></Route>
+                        <Route element={<AddExpense />} path="addexpense"></Route>
                     </Route>
                     <Route element={<Authentication />} path="auth">
                         <Route index element={<SignUp />} />
