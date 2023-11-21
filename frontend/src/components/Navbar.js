@@ -1,6 +1,7 @@
 import NavLogo from "../../src/logo.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../store/userSlice";
+import { redirect  } from "react-router-dom";
 
 const Navbar = () => {
     const user = useSelector((state) => state.user);
@@ -22,6 +23,7 @@ const Navbar = () => {
         if(response?.success){
             sessionStorage.clear();
             dispatch(remove());
+            redirect("/auth");
         }else{
             // error handling
         }
