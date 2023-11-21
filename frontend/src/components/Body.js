@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Authentication from './Authentication';
 import Navbar from './Navbar';
 import SignUp from "./Signup";
@@ -8,7 +7,6 @@ import Expenses from './Expenses';
 import ProtectedRoute from "../hooks/useProtectedRoute";
 
 const Body = () => {
-    const userInfo = useSelector((state) => state.user);
     return (
         <div>
             <Navbar />

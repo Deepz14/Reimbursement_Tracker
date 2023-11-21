@@ -17,11 +17,45 @@ const createUser = async(req, res) => {
 
         res.status(200).json({ success: true, user});
     }catch(error){
-        res.status(400).send({error: err.message});
+        console.log("error: ", error)
+        res.status(400).send({error: error?.message});
+    }
+}
+
+
+const Login = async(req, res) => {
+    try {
+        // Get a email and password from the req body
+        const { email, password } = req.body;
+        
+        // Check if the Email and Password is available on req body
+        if(!email || !password){
+            throw new Error('Email or Password is required');
+        }
+
+        // find the user by email
+        const user = await User.findOne({email}).select('+password');
+
+        if(!user){
+            throw new Error('Unable to find your account Please try again with valid credentials or signup');
+        }
+
+        const is_correct = await user.comparePassword(password);
+
+        // Check the Password is correct or not
+        if(!is_correct){
+            throw new Error('Email or Password is incorrect');
+        }
+        
+        res.status(200).json({ success: true, user});
+
+    } catch (error) {
+        res.status(400).send({error: error.message});
     }
 }
 
 
 module.exports = {
-    createUser
+    createUser,
+    Login
 }

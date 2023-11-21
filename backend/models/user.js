@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 
 const userSchema = new mongoose.Schema({
@@ -20,12 +21,26 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "user"
+        default: "employee"
     },
     createdAt: {
         type: Date,
         default: Date.now
     }
 });
+
+// Encrypt password before save
+userSchema.pre("save", async function(next) {
+    // Only run this function if password was modified (not on other update functions)
+    if(!this.isModified('password')) return next();
+
+    // Hash password with strength of 10
+    this.password = await bcrypt.hash(this.password, 10);
+});
+
+// compare Password from the request body
+userSchema.methods.comparePassword = async function(password) {
+    return await bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model('User', userSchema);
