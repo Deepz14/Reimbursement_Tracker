@@ -30,7 +30,7 @@ const SignUp = () => {
         }else{
             if(response?.success){
                 const {user} = response;
-                const userInfo = { uId: user?._id, email: user?.email, name: user?.name, role: user?.role }
+                const userInfo = { uId: user?._id, email: user?.email, name: user?.name, role: user?.role, token: response?.token }
                 dispatch(add(userInfo));
                 sessionStorage.setItem('user', JSON.stringify(userInfo));
                 navigate("/");

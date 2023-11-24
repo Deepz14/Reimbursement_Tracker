@@ -14,6 +14,7 @@ const Expenses = () => {
                             <th className="p-3 text-sm font-semibold text-left">Cost</th>
                             <th className="p-3 text-sm font-semibold text-left">Payment Type</th>
                             <th className="p-3 text-sm font-semibold text-left">Expense Type</th>
+                            <th className="p-3 text-sm font-semibold text-left">Status</th>
                             <th className="p-3 text-sm font-semibold text-left">Description</th>
                         </tr>
                     </thead>
