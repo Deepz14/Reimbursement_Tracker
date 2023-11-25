@@ -41,18 +41,33 @@ const createExpenseRecord = async(req, res) => {
 
 const getExpenseRecord = async(req, res) => {
     try {   
-        let expense = await Expense.find({user: req.user._id}).populate("user", "name")
+        let expenses = await Expense.find({user: req.user._id}).populate("user", "name")
         res.status(200).json({
             success: true,
-            expense
+            expenses
         });
         
-    } catch (err) {
-        res.status(400).send({error: err.message});
+    } catch (error) {
+        res.status(400).send({error: error.message});
+    }
+}
+
+const getAllExpenseRecord = async(req, res) => {
+    try{
+        console.log("req ", req);
+        let expenses = await Expense.find().populate("user", "name")
+        res.status(200).json({
+            success: true,
+            expenses
+        });
+    }catch(error){
+        console.log("error: ", error);
+        res.status(400).send({error: error.message});
     }
 }
 
 module.exports = {
     createExpenseRecord,
-    getExpenseRecord
+    getExpenseRecord,
+    getAllExpenseRecord
 }

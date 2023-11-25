@@ -22,15 +22,15 @@ const Expenses = () => {
                 'Authorization': 'Bearer ' + authUser?.token, 
             },
         };
-       
-        const getData = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/expense/getrecord/', payload);
+        const apiURL = authUser?.role === "employee" ? '/api/expense/getrecord/' : '/api/expense/getAllrecord/';
+        const getData = await fetch(process.env.REACT_APP_API_ENDPOINT + apiURL, payload);
         const response = await getData.json();
         console.log("response: ", response);
         if(response?.error) {
             // display error message
         }else{
             if(response?.success){
-               setExpenseList(response?.expense);
+               setExpenseList(response?.expenses);
             }
         }
     }
@@ -50,7 +50,7 @@ const Expenses = () => {
     return (
         <div className="w-[100vw] overflow-x-scroll md:overflow-x-hidden">
             <div className="mt-5 md:mx-5 md:px-3">
-                <h1 className="font-bold text-lg my-3">Expenses</h1>
+                <h1 className="font-bold text-lg my-3"> {getAuthUserInfo()?.role === "employee" ? 'Expenses' : 'All Records'}</h1>
                 <table className="w-[100%] border border-gray-200 rounded shadow">
                     <thead className="bg-indigo-500 text-white">
                         <tr>

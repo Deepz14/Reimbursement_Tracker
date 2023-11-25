@@ -39,18 +39,30 @@ const Navbar = () => {
                     <span className="pt-2 text-sm">Reimbursement Tracker</span>
                 </a>
                     {
-                        (user?.uId || getUserFromSessionStorage?.uId) &&
-                        <ul className="flex items-center justify-around mr-5 w-[260px] cursor-pointer">
-                            <li>
-                                <p onClick={() => navigate("/")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-blue-600 hover:text-white hover:border-0">Home</p>
-                            </li>
-                            <li>
-                                <p onClick={() => navigate("/addexpense")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-green-600 hover:text-white hover:border-0">Add Expense</p>
-                            </li>
-                            <li>
-                                <button onClick={logout} className="px-3 py-1 text-sm border border-gray-500 rounded hover:bg-red-600 hover:text-white hover:border-0">Log out</button>
-                            </li>
-                        </ul>
+                        (user?.uId || getUserFromSessionStorage?.uId) && getUserFromSessionStorage?.role === "employee" &&
+                        (
+                            <ul className="flex items-center justify-around mr-5 w-[260px] cursor-pointer">
+                                <li>
+                                    <p onClick={() => navigate("/")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-blue-600 hover:text-white hover:border-0">Home</p>
+                                </li>
+                                <li>
+                                    <p onClick={() => navigate("/addexpense")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-green-600 hover:text-white hover:border-0">Add Expense</p>
+                                </li>
+                                <li>
+                                    <button onClick={logout} className="px-3 py-1 text-sm border border-gray-500 rounded hover:bg-red-600 hover:text-white hover:border-0">Log out</button>
+                                </li>
+                            </ul>
+                        )
+                    }
+                    {
+                        (user?.uId || getUserFromSessionStorage?.uId) && getUserFromSessionStorage?.role === "hr" &&
+                        (
+                            <ul className="flex items-center justify-end mr-8 w-[260px] cursor-pointer">
+                                <li>
+                                    <button onClick={logout} className="px-3 py-1 text-sm border border-gray-500 rounded hover:bg-red-600 hover:text-white hover:border-0">Log out</button>
+                                </li>
+                            </ul>
+                        )
                     }
             </nav>
         </div>

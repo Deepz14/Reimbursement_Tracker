@@ -12,7 +12,7 @@ const createUser = async(req, res) => {
 
         // create a new user
         const user = await User.create({ 
-            name, email, password, role: "hr"
+            name, email, password
         });
 
         cookieToken(user, res);
@@ -33,7 +33,7 @@ const createHRUser = async(req, res) => {
 
         // create a new user
         const user = await User.create({ 
-            name, email, password
+            name, email, password, role: "hr"
         });
 
         res.status(200).json({ success: true});
