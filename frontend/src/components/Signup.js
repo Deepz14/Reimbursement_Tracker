@@ -50,8 +50,7 @@ const SignUp = () => {
         if(response?.error) {
             // display error message
             setLoader(false);
-            console.log("error : ", response?.error);
-            showErrorPrompt("Something went wrong!")
+            showErrorPrompt(response?.error)
         }else{
             if(response?.success){
                 setLoader(false);
