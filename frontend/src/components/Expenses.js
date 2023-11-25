@@ -36,7 +36,7 @@ const Expenses = () => {
     }
 
     const selectPageHandler = (selectedPage) => {
-        if(selectedPage >= 1 && selectedPage <= expenseList.length / 5 && selectedPage !== page) {
+        if(selectedPage >= 1 && selectedPage <= Math.ceil(expenseList.length / 5) && selectedPage !== page) {
             setPage(selectedPage);
         }
     }
@@ -66,8 +66,8 @@ const Expenses = () => {
                     </thead>
                     <tbody className="expense-table-body">
                         {
-                            expenseList.length > 0 &&
-                            expenseList.slice(page*5-5, page*5).map((exp) => (
+                            expenseList?.length > 0 &&
+                            expenseList?.slice((page * 5) - 5, page * 5)?.map((exp) => (
                                 
                                     <tr key={exp?._id}>
                                         <td className="p-3 text-sm text-left">{exp?.user?.name}</td>
@@ -88,10 +88,10 @@ const Expenses = () => {
                     </tbody> 
                 </table>
                 {
-                        expenseList.length > 0 ? (
+                        expenseList?.length > 0 ? (
                             <div className="pagination flex justify-center cursor-pointer my-3">
                                 <span onClick={() => selectPageHandler(page - 1)} className="rounded-l">◀</span>
-                                {[...Array(expenseList.length / 5)].map((_, i) => {
+                                {[...Array(Math.ceil(expenseList?.length / 5))]?.map((_, i) => {
                                     return <span className={page === i+1 ? "pagination__selected" : ""} onClick={() => selectPageHandler(i+1)}
                                      key={i}>{i+1}</span>
                                 })}
