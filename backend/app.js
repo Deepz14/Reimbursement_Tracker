@@ -13,6 +13,7 @@ const expenseRoutes = require('./routers/expense');
 app.use(express.json()); // TO RECOGNISE THE REQ OBJECT AS JSON
 app.use(express.urlencoded({extended: true})); // TO RECOGNISE THE REQ OBJECT AS STRINGS AND ARRAYS
 app.use(cors());
+app.use(cookieParser());
 app.use(fileUpload({
     useTempFiles : true,
     tempFileDir : '/tmp/'

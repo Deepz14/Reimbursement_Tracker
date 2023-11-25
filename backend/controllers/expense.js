@@ -39,11 +39,9 @@ const createExpenseRecord = async(req, res) => {
 }
 
 
-const getExpenseRecord = async() => {
-    try {
-
-        let expense = await Expense.find({user: req.user._id})
-    
+const getExpenseRecord = async(req, res) => {
+    try {   
+        let expense = await Expense.find({user: req.user._id}).populate("user", "name")
         res.status(200).json({
             success: true,
             expense

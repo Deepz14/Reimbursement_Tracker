@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate  } from "react-router-dom";
 import getAuthUserInfo from "../utils/getAuthUserInfo";
 
 const AddExpense = () => {
     const [empName, setEmpName] = useState('');
     const [expenseData, setExpenseData] = useState({});
+    const navigate = useNavigate();
 
     const userData = useSelector((state) => state.user);
 
@@ -67,6 +69,7 @@ const AddExpense = () => {
         }else{
             if(response?.success){
                 console.log("response: ", response);
+                navigate("/");
             }
         }
     }
