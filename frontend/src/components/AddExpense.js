@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate  } from "react-router-dom";
 import getAuthUserInfo from "../utils/getAuthUserInfo";
+import LoaderScreen from "../utils/loaderScreen";
+import { showSuccessPrompt, showErrorPrompt, showWarningPrompt } from  "../utils/notification";
 
 const AddExpense = () => {
+    const [loader, setLoader] = useState(false);
     const [empName, setEmpName] = useState('');
     const [expenseData, setExpenseData] = useState({});
     const navigate = useNavigate();
@@ -43,38 +46,37 @@ const AddExpense = () => {
 
         for (const [key] of Object.entries(expenseData)) {
             if(!expenseData[key]){
-                isInvalid = true
-            }
-            if(key === 'uploadFile'){
-                console.log(expenseData[key])
+                isInvalid = true;
+                showWarningPrompt("Fields cannot be Empty!")
             }
             formData.append(key, expenseData[key])
         }
         if(isInvalid) return;
-
+        
+        setLoader(true);
         const authUser = getAuthUserInfo();
         const payload = {
             method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + authUser?.token, 
-            },
+            headers: {'Authorization': 'Bearer ' + authUser?.token},
             body: formData
         };
        
         const addRecord = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/expense/addrecord/', payload);
         const response = await addRecord.json();
-        console.log("response: ", response);
         if(response?.error) {
             // display error message
+            setLoader(false);
+            showErrorPrompt(response?.error);
         }else{
             if(response?.success){
-                console.log("response: ", response);
+                setLoader(false);
+                showSuccessPrompt("New Record has been created!");
                 navigate("/");
             }
         }
     }
 
-    return (
+    return loader ? <LoaderScreen /> :(
         <div>
             <div className="border border-black-300 rounded md:my-10 mt-12 md:top-0 md:w-1/3 md:mx-auto">
                 <h1 className="font-bold text-2xl text-center my-5 md:text-xl">Add Expense</h1>
@@ -139,10 +141,10 @@ const AddExpense = () => {
                         <h6 className="mb-3">Upload related document <span className="text-red-600 font-bold">*</span></h6>
                         <div className="drop_box">
                             <h4>Select File here</h4>
-                            <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
+                            <p>Files Supported: jpg, png, jpeg </p>
                             <input name='uploadFile' hidden type="file" id="fileID" onChange={onUploadDocumentHandler}  />
-                            <button onClick={() => {document.getElementById('fileID').click();
-                            }} className="btn">Choose File</button>
+                            <div onClick={() => {document.getElementById('fileID').click();
+                            }} className="btn cursor-pointer">Choose File</div>
                             {expenseData?.uploadFile && 
                                 <h4 className="cursor-pointer pt-3">{expenseData?.uploadFile?.name} 
                                 <span onClick={() => setExpenseData({...expenseData, uploadFile: ''})} className="text-sm ml-2">❌</span></h4>

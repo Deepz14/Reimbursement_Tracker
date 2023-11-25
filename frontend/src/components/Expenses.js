@@ -1,6 +1,9 @@
+import FileIcon from "../../src/file.png";
 import { useEffect, useState } from "react";
 import getAuthUserInfo from "../utils/getAuthUserInfo";
 import { useSelector } from "react-redux";
+import { stausLabel, transformToDate } from "../utils/helper";
+
 
 const Expenses = () => {
     const [expenseList, setExpenseList] = useState([]);
@@ -41,12 +44,6 @@ const Expenses = () => {
         }
     }
 
-    const stausLabel = (data) => {
-       if(data === "processing") return "bg-yellow-400";
-       if(data === "approved") return "bg-green-400";
-       if(data === "declined") return "bg-red-400";
-    }
-
     return (
         <div className="w-[100vw] overflow-x-scroll md:overflow-x-hidden">
             <div className="mt-5 md:mx-5 md:px-3">
@@ -62,6 +59,7 @@ const Expenses = () => {
                             <th className="p-3 text-sm font-semibold text-left">EXPENSE TYPE</th>
                             <th className="p-3 text-sm font-semibold text-left">STATUS</th>
                             <th className="p-3 text-sm font-semibold text-left">DESCRIPTION</th>
+                            <th className="p-3 text-sm font-semibold text-left">Bill Receipt</th>
                         </tr>
                     </thead>
                     <tbody className="expense-table-body">
@@ -72,7 +70,7 @@ const Expenses = () => {
                                     <tr key={exp?._id}>
                                         <td className="p-3 text-sm text-left">{exp?.user?.name}</td>
                                         <td className="p-3 text-sm text-left titlecase">{exp?.department}</td>
-                                        <td className="p-3 text-sm text-left">{exp?.dateOfExpense}</td>
+                                        <td className="p-3 text-sm text-left">{transformToDate(exp?.dateOfExpense)}</td>
                                         <td className="p-3 text-sm text-left">{exp?.costOfExpense}</td>
                                         <td className="p-3 text-sm text-left titlecase">{exp?.paymentType}</td>
                                         <td className="p-3 text-sm text-left titlecase">{exp?.expenseType}</td>
@@ -81,6 +79,11 @@ const Expenses = () => {
                                            stausLabel(exp?.status)}>{exp?.status}</span>
                                         </td>
                                         <td className="p-3 text-sm text-left">{exp?.description}</td>
+                                        <td className="p-3 text-sm text-left">
+                                            <a target="_blank" href={exp?.uploadFile[0]?.secure_url}>
+                                                <img className="h-5 cursor-pointer" src={FileIcon} alt="fileIcon" />
+                                            </a>
+                                        </td>
                                     </tr>
                                 
                             ))

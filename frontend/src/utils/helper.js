@@ -10,3 +10,13 @@ export const passwordValidation = (password) => {
     if (!regex.test(password)) return  "Your password must contain min 8 Characters, with at least a special character and numbers."
     
 }
+
+export const stausLabel = (data) => {
+    if(data === "processing") return "bg-yellow-400";
+    if(data === "approved") return "bg-green-400";
+    if(data === "declined") return "bg-red-400";
+}
+
+export const transformToDate = (input) => {
+    if(input) return String(input).split("T")[0];
+}
