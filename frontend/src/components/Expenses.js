@@ -2,7 +2,7 @@ import FileIcon from "../../src/file.png";
 import { useEffect, useState } from "react";
 import getAuthUserInfo from "../utils/getAuthUserInfo";
 import { useSelector } from "react-redux";
-import { stausLabel, transformToDate } from "../utils/helper";
+import { stausLabel, transformToDate, currencyConversion } from "../utils/helper";
 
 
 const Expenses = () => {
@@ -71,14 +71,14 @@ const Expenses = () => {
                                         <td className="p-3 text-sm text-left">{exp?.user?.name}</td>
                                         <td className="p-3 text-sm text-left titlecase">{exp?.department}</td>
                                         <td className="p-3 text-sm text-left">{transformToDate(exp?.dateOfExpense)}</td>
-                                        <td className="p-3 text-sm text-left">{exp?.costOfExpense}</td>
+                                        <td className="p-3 text-sm text-left">{currencyConversion(exp?.costOfExpense)}</td>
                                         <td className="p-3 text-sm text-left titlecase">{exp?.paymentType}</td>
                                         <td className="p-3 text-sm text-left titlecase">{exp?.expenseType}</td>
                                         <td className="p-3 text-sm text-left titlecase">
                                             <span className={"px-2 py-1 rounded " +
                                            stausLabel(exp?.status)}>{exp?.status}</span>
                                         </td>
-                                        <td className="p-3 text-sm text-left">{exp?.description}</td>
+                                        <td className="p-3 text-sm text-left"><p className="desc">{exp?.description}</p></td>
                                         <td className="p-3 text-sm text-left">
                                             <a target="_blank" href={exp?.uploadFile[0]?.secure_url}>
                                                 <img className="h-5 cursor-pointer" src={FileIcon} alt="fileIcon" />

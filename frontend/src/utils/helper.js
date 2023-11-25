@@ -20,3 +20,7 @@ export const stausLabel = (data) => {
 export const transformToDate = (input) => {
     if(input) return String(input).split("T")[0];
 }
+
+export const currencyConversion = (input) => {
+   return new Intl.NumberFormat('en-IN').format(input) + ".00";
+} 

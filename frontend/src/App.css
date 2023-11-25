@@ -6,14 +6,15 @@
 .authentication-container{
   height: 100vh;
   width: 100vw;
-  /* background-image: url('./bg_login.jpg');
-  background-repeat: no-repeat;
-  background-size: cover; */
 }
 
 .expense-table-body tr:nth-child(even) {
     background-color: #eee;
     color: #000;
+}
+
+.desc{
+ word-break: break-all;
 }
 
 .pagination > span{
