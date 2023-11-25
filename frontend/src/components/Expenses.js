@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 const Expenses = () => {
     const [expenseList, setExpenseList] = useState([]);
+    const [page, setPage] = useState(1);
     const userData = useSelector((state) => state.user);
 
     useEffect(() => {
@@ -34,45 +35,74 @@ const Expenses = () => {
         }
     }
 
+    const selectPageHandler = (selectedPage) => {
+        if(selectedPage >= 1 && selectedPage <= expenseList.length / 5 && selectedPage !== page) {
+            setPage(selectedPage);
+        }
+    }
+
+    const stausLabel = (data) => {
+       if(data === "processing") return "bg-yellow-400";
+       if(data === "approved") return "bg-green-400";
+       if(data === "declined") return "bg-red-400";
+    }
+
     return (
         <div className="w-[100vw] overflow-x-scroll md:overflow-x-hidden">
             <div className="mt-5 md:mx-5 md:px-3">
-                <h1 className="font-bold text-lg my-1">Expenses</h1>
-                <table className="w-[100%] ">
+                <h1 className="font-bold text-lg my-3">Expenses</h1>
+                <table className="w-[100%] border border-gray-200 rounded shadow">
                     <thead className="bg-indigo-500 text-white">
                         <tr>
-                            <th className="p-3 text-sm font-semibold text-left">Employee Name</th>
-                            <th className="p-3 text-sm font-semibold text-left">Department</th>
-                            <th className="p-3 text-sm font-semibold text-left">Date</th>
-                            <th className="p-3 text-sm font-semibold text-left">Cost</th>
-                            <th className="p-3 text-sm font-semibold text-left">Payment Type</th>
-                            <th className="p-3 text-sm font-semibold text-left">Expense Type</th>
-                            <th className="p-3 text-sm font-semibold text-left">Status</th>
-                            <th className="p-3 text-sm font-semibold text-left">Description</th>
+                            <th className="p-3 text-sm font-semibold text-left">EMPLOYEE NAME</th>
+                            <th className="p-3 text-sm font-semibold text-left">DEPARTMENT</th>
+                            <th className="p-3 text-sm font-semibold text-left">DATE</th>
+                            <th className="p-3 text-sm font-semibold text-left">COST</th>
+                            <th className="p-3 text-sm font-semibold text-left">PAYMENT TYPE</th>
+                            <th className="p-3 text-sm font-semibold text-left">EXPENSE TYPE</th>
+                            <th className="p-3 text-sm font-semibold text-left">STATUS</th>
+                            <th className="p-3 text-sm font-semibold text-left">DESCRIPTION</th>
                         </tr>
                     </thead>
                     <tbody className="expense-table-body">
                         {
-                            expenseList.length > 0 ? 
-                            expenseList.map((exp) => (
+                            expenseList.length > 0 &&
+                            expenseList.slice(page*5-5, page*5).map((exp) => (
                                 
                                     <tr key={exp?._id}>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.user?.name}</td>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.department}</td>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.dateOfExpense}</td>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.costOfExpense}</td>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.paymentType}</td>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.expenseType}</td>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.status}</td>
-                                        <td className="p-3 text-sm font-semibold text-left">{exp?.description}</td>
+                                        <td className="p-3 text-sm text-left">{exp?.user?.name}</td>
+                                        <td className="p-3 text-sm text-left titlecase">{exp?.department}</td>
+                                        <td className="p-3 text-sm text-left">{exp?.dateOfExpense}</td>
+                                        <td className="p-3 text-sm text-left">{exp?.costOfExpense}</td>
+                                        <td className="p-3 text-sm text-left titlecase">{exp?.paymentType}</td>
+                                        <td className="p-3 text-sm text-left titlecase">{exp?.expenseType}</td>
+                                        <td className="p-3 text-sm text-left titlecase">
+                                            <span className={"px-2 py-1 rounded " +
+                                           stausLabel(exp?.status)}>{exp?.status}</span>
+                                        </td>
+                                        <td className="p-3 text-sm text-left">{exp?.description}</td>
                                     </tr>
                                 
                             ))
-                            :
-                            ''
                         }
                     </tbody> 
                 </table>
+                {
+                        expenseList.length > 0 ? (
+                            <div className="pagination flex justify-center cursor-pointer my-3">
+                                <span onClick={() => selectPageHandler(page - 1)} className="rounded-l">◀</span>
+                                {[...Array(expenseList.length / 5)].map((_, i) => {
+                                    return <span className={page === i+1 ? "pagination__selected" : ""} onClick={() => selectPageHandler(i+1)}
+                                     key={i}>{i+1}</span>
+                                })}
+                                <span onClick={() => selectPageHandler(page + 1)} className="rounded-r">▶</span>
+                            </div>
+                        ) : (
+                            <div className="bg-gray-200 text-center py-3">
+                                <h1>No Record Found! 😐</h1>
+                            </div>
+                        )
+                    }
             </div>
             
         </div>
