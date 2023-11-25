@@ -16,14 +16,14 @@ const CreateAccount = () => {
             body: JSON.stringify({ name: name.current.value, email: email.current.value, password: password.current.value })
         };
        
-        const userCreate = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/auth/createuser/', payload);
+        const userCreate = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/auth/hr/createuser/', payload);
         const response = await userCreate.json();
         console.log("response: ", response);
         if(response?.error) {
             // display error message
         }else{
             if(response?.success){
-                window.location.assign("http://localhost:3000/login");
+                window.location.assign(process.env.REACT_APP_HR_ACCOUNT_CREATION_REDIRECTION + "/auth");
             }
         }
     }

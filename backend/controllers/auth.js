@@ -12,10 +12,31 @@ const createUser = async(req, res) => {
 
         // create a new user
         const user = await User.create({ 
-            name, email, password
+            name, email, password, role: "hr"
         });
 
         cookieToken(user, res);
+    }catch(error){
+        console.log("error: ", error)
+        res.status(400).send({error: error?.message});
+    }
+}
+
+
+const createHRUser = async(req, res) => {
+    try{
+        const { name, email, password } = req.body;
+        console.log("request body: ", name, email, password);
+        if (!name || !email || !password) {
+            throw new Error('Name, Email and Password are required');
+        }    
+
+        // create a new user
+        const user = await User.create({ 
+            name, email, password
+        });
+
+        res.status(200).json({ success: true});
     }catch(error){
         console.log("error: ", error)
         res.status(400).send({error: error?.message});
@@ -75,6 +96,7 @@ const Logout = (req, res) => {
 
 module.exports = {
     createUser,
+    createHRUser,
     Login,
     Logout
 }
