@@ -18,7 +18,7 @@ const Body = () => {
                         <Route element={<AddExpense />} path="addexpense"></Route>
                     </Route>
                     <Route element={<Authentication />} path="auth">
-                        <Route index element={<SignUp />} />
+                        <Route index element={<Login />} />
                         <Route element={<SignUp />} path='signup' />
                         <Route element={<Login />} path='login' />
                     </Route>
