@@ -1,9 +1,13 @@
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/userSlice";
+import LoaderScreen from "../utils/loaderScreen";
+import { emailValidation, passwordValidation } from "../utils/helper";
+import { showSuccessPrompt, showErrorPrompt, showWarningPrompt } from  "../utils/notification";
 
 const Login = () => {
+    const [loader, setLoader] = useState(false);
     const email = useRef(null);
     const password = useRef(null);
     const navigate = useNavigate();
@@ -14,7 +18,25 @@ const Login = () => {
         loginHandler();
     }
 
+    const checkValidation = () => {
+        if(!email.current.value || !password.current.value){
+            showWarningPrompt("Email & Password cannot be Empty!")
+            return false;
+        }
+        if(emailValidation(email.current.value)){
+            showWarningPrompt("Please enter a valid email address.")
+            return false;
+        }
+        if(passwordValidation(password.current.value)){
+            showWarningPrompt("Your password must contain min 8 Characters, with at least a special character and numbers.");
+            return false;
+        }
+        return true;
+    }
+
     const loginHandler = async() => {
+        if(!checkValidation()) return;
+        setLoader(true);
         const payload = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -26,12 +48,17 @@ const Login = () => {
         console.log("response: ", response);
         if(response?.error) {
             // display error message
+            setLoader(false);
+            console.log("error : ", response?.error);
+            showErrorPrompt(response?.error);
         }else{
             if(response?.success){
+                setLoader(false);
                 const {user} = response;
                 const userInfo = { uId: user?._id, email: user?.email, name: user?.name, role: user?.role, token: response?.token }
                 dispatch(add(userInfo));
                 sessionStorage.setItem('user', JSON.stringify(userInfo));
+                showSuccessPrompt("You are successfully logged in!");
                 navigate("/");
             }
         }
@@ -41,8 +68,8 @@ const Login = () => {
         const isAuthUser = JSON.parse(sessionStorage.getItem('user'));
         userData || isAuthUser?.uId && navigate("/");
     }, []);
-
-    return (
+    
+    return loader ? <LoaderScreen /> : (
         <div className="border border-black-300 rounded md:my-10 mt-12 md:top-0 md:w-1/3 md:mx-auto">
             <h1 className="font-bold text-2xl text-center my-5 md:text-xl">Login</h1>
             <div className="my-3 py-2 mx-3 px-3">
