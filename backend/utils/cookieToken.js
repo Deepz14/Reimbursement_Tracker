@@ -10,7 +10,7 @@ const cookieToken = async(user, res) => {
         httpOnly: true
     }
     user.password = undefined;
-    console.log("token: ", token);
+    //console.log("token: ", token);
     res.status(200).cookie('token', token, options).json({ success: true, token, user});
 }
 

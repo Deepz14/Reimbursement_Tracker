@@ -45,11 +45,11 @@ const Login = () => {
        
         const userLogin = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/auth/login/', payload);
         const response = await userLogin.json();
-        console.log("response: ", response);
+        //console.log("response: ", response);
         if(response?.error) {
             // display error message
             setLoader(false);
-            console.log("error : ", response?.error);
+            //console.log("error : ", response?.error);
             showErrorPrompt(response?.error);
         }else{
             if(response?.success){

@@ -18,7 +18,7 @@ const verifyUser = async(req, res, next) => {
     }
     
     req.user = await User.findById(decoded.id);
-    console.log("verify req user: ", req.user);
+    //console.log("verify req user: ", req.user);
     next();
 }
 

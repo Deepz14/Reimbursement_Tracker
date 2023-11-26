@@ -20,7 +20,7 @@ const Navbar = () => {
         };
         const userLogout = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/auth/logout/', payload);
         const response = await userLogout.json();
-        console.log("response: ", response);
+        //console.log("response: ", response);
         if(response?.success){
             sessionStorage.clear();
             dispatch(remove());

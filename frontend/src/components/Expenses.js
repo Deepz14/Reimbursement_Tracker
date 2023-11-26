@@ -33,7 +33,7 @@ const Expenses = () => {
         const apiURL = authUser?.role === "employee" ? '/api/expense/getrecord/' : '/api/expense/getAllrecord/';
         const getData = await fetch(process.env.REACT_APP_API_ENDPOINT + apiURL, payload);
         const response = await getData.json();
-        console.log("response: ", response);
+        //console.log("response: ", response);
         if(response?.error) {
             // display error message
             setLoader(false);

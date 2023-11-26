@@ -5,7 +5,7 @@ const createUser = async(req, res) => {
     
     try{
         const { name, email, password } = req.body;
-        console.log("request body: ", name, email, password);
+        //console.log("request body: ", name, email, password);
         if (!name || !email || !password) {
             throw new Error('Name, Email and Password are required');
         }    
@@ -17,7 +17,7 @@ const createUser = async(req, res) => {
 
         cookieToken(user, res);
     }catch(error){
-        console.log("error: ", error)
+        //console.log("error: ", error)
         res.status(400).send({error: error?.message});
     }
 }
@@ -26,7 +26,7 @@ const createUser = async(req, res) => {
 const createHRUser = async(req, res) => {
     try{
         const { name, email, password } = req.body;
-        console.log("request body: ", name, email, password);
+        //console.log("request body: ", name, email, password);
         if (!name || !email || !password) {
             throw new Error('Name, Email and Password are required');
         }    

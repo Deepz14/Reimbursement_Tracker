@@ -13,7 +13,7 @@ const createExpenseRecord = async(req, res) => {
 
         // Upload document to cloudinary
         let file = req.files?.uploadFile;
-        console.log("file: ", file);
+        //console.log("file: ", file);
         let fileUpload = await cloudinary.v2.uploader.upload(file?.tempFilePath, {
             folder: "expenses",
         });
@@ -21,7 +21,7 @@ const createExpenseRecord = async(req, res) => {
             id: fileUpload.public_id, 
             secure_url: fileUpload.secure_url
         });
-        console.log("file upload: ", fileUpload);
+        //console.log("file upload: ", fileUpload);
         req.body.uploadFile = expenseDocument;
         req.body.user = req.user._id;
         
@@ -55,21 +55,21 @@ const getExpenseRecord = async(req, res) => {
 
 const getAllExpenseRecord = async(req, res) => {
     try{
-        console.log("req ", req);
+        //console.log("req ", req);
         let expenses = await Expense.find().populate("user", "name")
         res.status(200).json({
             success: true,
             expenses
         });
     }catch(error){
-        console.log("error: ", error);
+        //console.log("error: ", error);
         res.status(400).send({error: error.message});
     }
 }
 
 const getExpenseRecordByID = async(req, res) => {
     try{
-        console.log("expense: ", req?.query?.expId)
+        //console.log("expense: ", req?.query?.expId)
         const expense = await Expense.findById(req?.query?.expId).populate("user", "name");
 
         if (!expense) {
@@ -87,8 +87,8 @@ const getExpenseRecordByID = async(req, res) => {
 
 const updateExpense = async(req, res) => {
     try{
-        console.log("expense: ", req?.query?.expId);
-        console.log("expense body: ", req?.body);
+        //console.log("expense: ", req?.query?.expId);
+        //console.log("expense body: ", req?.body);
         let expense = await Expense.findById(req?.query?.expId).populate("user", "name");
 
         if (!expense) {

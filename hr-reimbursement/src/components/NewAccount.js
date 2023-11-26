@@ -40,7 +40,7 @@ const NewAccount = () => {
        
         const userCreate = await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/auth/hr/createuser/', payload);
         const response = await userCreate.json();
-        console.log("response: ", response);
+        //console.log("response: ", response);
         if(response?.error) {
             // display error message
             setLoader(false);
