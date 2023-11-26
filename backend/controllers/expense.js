@@ -13,7 +13,7 @@ const createExpenseRecord = async(req, res) => {
 
         // Upload document to cloudinary
         let file = req.files?.uploadFile;
-       
+        console.log("file: ", file);
         let fileUpload = await cloudinary.v2.uploader.upload(file?.tempFilePath, {
             folder: "expenses",
         });
@@ -21,6 +21,7 @@ const createExpenseRecord = async(req, res) => {
             id: fileUpload.public_id, 
             secure_url: fileUpload.secure_url
         });
+        console.log("file upload: ", fileUpload);
         req.body.uploadFile = expenseDocument;
         req.body.user = req.user._id;
         
