@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { stausLabel, transformToDate, currencyConversion } from "../utils/helper";
 import LoaderScreen from "../utils/loaderScreen";
 import getAuthUserInfo from "../utils/getAuthUserInfo";
-import { showErrorPrompt, showSuccessPrompt } from  "../utils/notification";
+import { showErrorPrompt, showSuccessPrompt, showConfirmationPrompt } from  "../utils/notification";
 
 const ExpenseCard = ({expenseInfo, expId}) => {
     const [loader, setLoader] = useState(false);
@@ -17,38 +17,43 @@ const ExpenseCard = ({expenseInfo, expId}) => {
     }, []);
 
     const cardActionHandler = async(actionType) => {
-        setLoader(true);
-        const authUser = getAuthUserInfo();
-        let messageInfo = ''
-        if(actionType === "approved") {
-            messageInfo = message.current.value ? message.current.value : "Your request has been approved! ☺";
-        }
+        showConfirmationPrompt()
+        .then(async (result) => {
+            if (result.isConfirmed) {
+                setLoader(true);
+                const authUser = getAuthUserInfo();
+                let messageInfo = ''
+                if(actionType === "approved") {
+                    messageInfo = message.current.value ? message.current.value : "Your request has been approved! ☺";
+                }
 
-        if(actionType === "rejected"){
-            messageInfo = message.current.value ? message.current.value : "Your request has been rejected! ☹";
-        }
+                if(actionType === "rejected"){
+                    messageInfo = message.current.value ? message.current.value : "Your request has been rejected! ☹";
+                }
 
-        let expensePayload = {...expenseInfo, status: actionType, message: messageInfo}
-        const payload = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json','Authorization': 'Bearer ' + authUser?.token},
-            body: JSON.stringify(expensePayload)
-        };
+                let expensePayload = {...expenseInfo, status: actionType, message: messageInfo}
+                const payload = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json','Authorization': 'Bearer ' + authUser?.token},
+                    body: JSON.stringify(expensePayload)
+                };
 
-        const apiURL = `/api/expense/updateExpense/?expId=${expId}`;
-        const getData = await fetch(process.env.REACT_APP_API_ENDPOINT + apiURL, payload);
-        const response = await getData.json();
-        if(response?.error) {
-            // display error message
-            showErrorPrompt(response?.error);
-            setLoader(false);
-        }else{
-            if(response?.success){
-                setLoader(false);
-                showSuccessPrompt("Record has been updated!")
-                navigate("/");
+                const apiURL = `/api/expense/updateExpense/?expId=${expId}`;
+                const getData = await fetch(process.env.REACT_APP_API_ENDPOINT + apiURL, payload);
+                const response = await getData.json();
+                if(response?.error) {
+                    // display error message
+                    showErrorPrompt(response?.error);
+                    setLoader(false);
+                }else{
+                    if(response?.success){
+                        setLoader(false);
+                        showSuccessPrompt("Record has been updated!")
+                        navigate("/");
+                    }
+                }
             }
-        }
+        });
     }
 
     return loader ? <LoaderScreen /> : (

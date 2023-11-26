@@ -19,6 +19,15 @@ export const showSuccessPrompt = (message) => {
       });
 }
 
+export const showConfirmationPrompt = () => {
+    return Swal.fire({
+        title: "Do you want to update the record?",
+        showCancelButton: true,
+        confirmButtonText: "Confirm",
+        denyButtonText: `Cancel`
+    })
+}
+
 export const showErrorPrompt = (message) => {
     Swal.fire({
         icon: "error",
