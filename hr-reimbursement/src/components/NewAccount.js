@@ -48,7 +48,7 @@ const NewAccount = () => {
         }else{
             if(response?.success){
                 setLoader(false);
-                window.location.replace(process.env.REACT_APP_HR_ACCOUNT_CREATION_REDIRECTION + "/auth");
+                window.location.assign(process.env.REACT_APP_HR_ACCOUNT_CREATION_REDIRECTION + "/auth");
                 //showSuccessPrompt('New Account has been created!');
             }
         }
