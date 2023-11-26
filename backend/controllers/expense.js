@@ -66,8 +66,54 @@ const getAllExpenseRecord = async(req, res) => {
     }
 }
 
+const getExpenseRecordByID = async(req, res) => {
+    try{
+        console.log("expense: ", req?.query?.expId)
+        const expense = await Expense.findById(req?.query?.expId);
+
+        if (!expense) {
+            throw new Error('Expense Record not Found');
+        }
+
+        res.status(200).json({
+            success: true,
+            expense
+        })
+    }catch(error){
+        res.status(400).send({error: error.message});  
+    }
+}
+
+const updateExpense = async(req, res) => {
+    try{
+        console.log("expense: ", req?.query?.expId);
+        console.log("expense body: ", req?.body);
+        let expense = await Expense.findById(req?.query?.expId);
+
+        if (!expense) {
+            throw new Error('Expense Record not Found');
+        }
+
+        req.body.user = req.user._id;
+
+        expense = await Expense.findByIdAndUpdate(req.query?.expId, req?.body, {
+            new: true,
+            runValidators: true
+        });
+    
+        res.status(200).json({
+            success: true,
+            expense
+        });
+    }catch(error){
+        res.status(400).send({error: error.message});  
+    }
+}
+
 module.exports = {
     createExpenseRecord,
     getExpenseRecord,
-    getAllExpenseRecord
+    getAllExpenseRecord,
+    getExpenseRecordByID,
+    updateExpense
 }

@@ -9,7 +9,10 @@ const ViewExpense = () => {
     const { expId } = useParams();
 
     useEffect(() => {
-        console.log("expID: ", expId)
+        console.log("expID: ", expId);
+        if(expId){
+            getExpenseInfo();
+        }
     },  []);
 
 
@@ -23,7 +26,8 @@ const ViewExpense = () => {
             },
         };
 
-        const getData = await fetch();
+        const apiURL = `/api/expense/getExpenseById/?expId=${expId}`;
+        const getData = await fetch(process.env.REACT_APP_API_ENDPOINT + apiURL, payload);
         const response = await getData.json();
         if(response?.error) {
             // display error message
