@@ -5,8 +5,7 @@ import { useSelector } from "react-redux";
 import { stausLabel, transformToDate, currencyConversion } from "../utils/helper";
 import Pagination from "./Pagination";
 
-
-const Expenses = () => {
+const PendingPayments = () => {
     const [expenseList, setExpenseList] = useState([]);
     const [page, setPage] = useState(1);
     const userData = useSelector((state) => state.user);
@@ -34,7 +33,7 @@ const Expenses = () => {
             // display error message
         }else{
             if(response?.success){
-               setExpenseList(response?.expenses);
+               //setExpenseList(response?.expenses);
             }
         }
     }
@@ -47,7 +46,7 @@ const Expenses = () => {
 
     return (
         <div className="mt-5 md:mx-5 md:px-3">
-            <h1 className="font-bold text-lg m-3 pl-5"> {getAuthUserInfo()?.role === "employee" ? 'Expenses' : 'All Records'}</h1>
+            <h1 className="font-bold text-lg m-3 pl-5">Pending Payments</h1>
             <section class="table__body shadow">
                 <table>
                     <thead>
@@ -73,11 +72,11 @@ const Expenses = () => {
                                         <td>{exp?.department}</td>
                                         <td >{transformToDate(exp?.dateOfExpense)}</td>
                                         <td>{currencyConversion(exp?.costOfExpense)}</td>
-                                        <td className="titlecase">{exp?.paymentType}</td>
-                                        <td className="titlecase">{exp?.expenseType}</td>
-                                        <td className="titlecase">
+                                        <td >{exp?.paymentType}</td>
+                                        <td>{exp?.expenseType}</td>
+                                        <td>
                                             <span className={"px-2 py-1 rounded " +
-                                            stausLabel(exp?.status)}>{exp?.status}</span>
+                                        stausLabel(exp?.status)}>{exp?.status}</span>
                                         </td>
                                         <td><p className="desc">{exp?.description}</p></td>
                                         <td>
@@ -106,6 +105,7 @@ const Expenses = () => {
             }
         </div>
     )
-}
+};
 
-export default Expenses;
+
+export default PendingPayments;

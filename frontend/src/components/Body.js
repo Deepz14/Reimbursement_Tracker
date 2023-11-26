@@ -6,6 +6,7 @@ import Login from "./Login";
 import Expenses from './Expenses';
 import ProtectedRoute from "../hooks/useProtectedRoute";
 import AddExpense from "./AddExpense";
+import PendingPayments from "./PendingPayments";
 
 const Body = () => {
     return (
@@ -16,6 +17,7 @@ const Body = () => {
                     <Route element={<ProtectedRoute />}>
                         <Route exact path="/" element={<Expenses />}></Route>
                         <Route element={<AddExpense />} path="addexpense"></Route>
+                        <Route element={<PendingPayments />} path="pendingPayments"></Route>
                     </Route>
                     <Route element={<Authentication />} path="auth">
                         <Route index element={<Login />} />
