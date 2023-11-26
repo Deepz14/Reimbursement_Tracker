@@ -114,7 +114,7 @@ const AddExpense = () => {
                         <select name='expenseType' onChange={(e) => setExpenseDataHandler({'expenseType': e.target.value})} className="border border-gray-300 rounded w-full md:p-2 p-3">
                             <option value=''>Select Expense</option>
                             <option value='travel'>Travel</option>
-                            <option value='officeSupplies'>Office Supplies</option>
+                            <option value='office Supplies'>Office Supplies</option>
                             <option value='meals'>Meals</option>
                             <option value='software'>Software</option>
                             <option value='stay'>Late Stay</option>

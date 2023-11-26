@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const verifyUser = require('../middlewares/userVerify');
+const { verifyUser, customRoles } = require('../middlewares/userVerify');
 
 // IMPORT FROM EXPENSE CONTROLLER
 const { createExpenseRecord, getExpenseRecord, 
@@ -9,14 +9,11 @@ const { createExpenseRecord, getExpenseRecord,
 
 
 router.post("/addrecord/", verifyUser, createExpenseRecord);
-
 router.get("/getrecord/", verifyUser , getExpenseRecord);
 
 // HR routes
-router.get("/getAllrecord/", verifyUser, getAllExpenseRecord);
-
-router.get("/getExpenseById/", verifyUser, getExpenseRecordByID);
-
-router.put("/updateExpense/", verifyUser, updateExpense);
+router.get("/getAllrecord/", verifyUser,  customRoles('hr'), getAllExpenseRecord);
+router.get("/getExpenseById/", verifyUser, customRoles('hr'), getExpenseRecordByID);
+router.put("/updateExpense/", verifyUser, customRoles('hr'), updateExpense);
 
 module.exports = router;

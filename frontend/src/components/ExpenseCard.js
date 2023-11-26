@@ -101,8 +101,8 @@ const ExpenseCard = ({expenseInfo, expId}) => {
             </div>
             <div className="grid grid-cols-12 mt-3 border border-gray-200 py-2">
                 <div className="col-span-12 flex justify-end">
-                    <button onClick={() => cardActionHandler('approved')} className="px-3 py-1 rounded bg-green-600 text-white mr-3">Approve</button>
-                    <button onClick={() => cardActionHandler('rejected')} className="px-3 py-1 rounded bg-red-600 text-white mr-3">Reject</button>
+                    <button onClick={() => cardActionHandler('approved')} className="px-3 py-1 rounded bg-green-600 text-white mr-3 hover:bg-transparent hover:text-black hover:border border-gray-400">Approve</button>
+                    <button onClick={() => cardActionHandler('rejected')} className="px-3 py-1 rounded bg-red-600 text-white mr-3  hover:bg-transparent hover:text-black hover:border border-gray-400">Reject</button>
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@ export const passwordValidation = (password) => {
 export const stausLabel = (data) => {
     if(data === "processing") return "bg-yellow-400";
     if(data === "approved") return "bg-green-400";
-    if(data === "declined") return "bg-red-400";
+    if(data === "rejected") return "bg-red-400";
 }
 
 export const transformToDate = (input) => {

@@ -34,14 +34,15 @@ const Navbar = () => {
     return (
         <div className="w-full border border-gray-300 shadow">
             <nav className="flex items-center justify-between">
-                <a className="flex items-center w-[180px]">
+                <a onClick={() => navigate("/")} className="flex items-center w-[180px] cursor-pointer">
                     <img className="h-13 w-16" alt="nav-logo" src={NavLogo} />
                     <span className="pt-2 text-sm">Reimbursement Tracker</span>
                 </a>
+                <ul className="flex flex-wrap items-center justify-around mr-5 w-[260px] cursor-pointer">
                     {
                         (user?.uId || getUserFromSessionStorage?.uId) && getUserFromSessionStorage?.role === "employee" &&
                         (
-                            <ul className="flex items-center justify-around mr-5 w-[260px] cursor-pointer">
+                           <>
                                 <li>
                                     <p onClick={() => navigate("/")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-blue-600 hover:text-white hover:border-0">Home</p>
                                 </li>
@@ -51,25 +52,23 @@ const Navbar = () => {
                                 <li>
                                     <button onClick={logout} className="px-3 py-1 text-sm border border-gray-500 rounded hover:bg-red-600 hover:text-white hover:border-0">Log out</button>
                                 </li>
-                            </ul>
+                            </>
                         )
                     }
                     {
                         (user?.uId || getUserFromSessionStorage?.uId) && getUserFromSessionStorage?.role === "hr" &&
                         (
-                            <ul className="flex items-center justify-around mr-8 cursor-pointer">
+                            <>
                                 <li>
-                                    <p onClick={() => navigate("/")} className="px-3 py-1 mr-3 text-sm border border-3 border-gray-500 rounded hover:bg-blue-600 hover:text-white hover:border-0">Home</p>
-                                </li>
-                                <li>
-                                    <button onClick={() => navigate("/pendingPayments")} className="px-3 py-1 mr-3 text-sm border border-gray-500 rounded hover:bg-green-600 hover:text-white hover:border-0">Pending Payments</button>
+                                    <button onClick={() => navigate("/pendingPayments")} className="px-3 py-1 text-sm border border-3 border-gray-500 rounded hover:bg-green-600 hover:text-white hover:border-0">Pending Payments</button>
                                 </li>
                                 <li>
                                     <button onClick={logout} className="px-3 py-1 text-sm border border-gray-500 rounded hover:bg-red-600 hover:text-white hover:border-0">Log out</button>
                                 </li>
-                            </ul>
+                            </>
                         )
                     }
+                    </ul>
             </nav>
         </div>
     )

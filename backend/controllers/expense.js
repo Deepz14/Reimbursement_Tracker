@@ -94,8 +94,6 @@ const updateExpense = async(req, res) => {
             throw new Error('Expense Record not Found');
         }
 
-        req.body.user = req.user._id;
-
         expense = await Expense.findByIdAndUpdate(req.query?.expId, req?.body, {
             new: true,
             runValidators: true

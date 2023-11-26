@@ -22,4 +22,16 @@ const verifyUser = async(req, res, next) => {
     next();
 }
 
-module.exports = verifyUser;
+const customRoles = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(res.status(403).send({error: 'You are allowed for this resource'}));
+        }
+        next();
+    }
+}
+
+module.exports = {
+    verifyUser,
+    customRoles
+};

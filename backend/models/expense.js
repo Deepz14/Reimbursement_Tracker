@@ -21,7 +21,7 @@ const expenseSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please select a expense type'],
         enum: {
-            values: ['travel', 'officeSupplies', 'meals', 'software', 'stay', 'events', 'outing', 'other'],
+            values: ['travel', 'office Supplies', 'meals', 'software', 'stay', 'events', 'outing', 'other'],
             message: 'Please a select a valid expense type'
         }
     },
