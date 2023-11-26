@@ -1,7 +1,9 @@
 import FileIcon from "../../src/file.png";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import getAuthUserInfo from "../utils/getAuthUserInfo";
 import { useSelector } from "react-redux";
+import { showErrorPrompt } from  "../utils/notification";
 import { stausLabel, transformToDate, currencyConversion } from "../utils/helper";
 import Pagination from "./Pagination";
 
@@ -9,6 +11,7 @@ const PendingPayments = () => {
     const [expenseList, setExpenseList] = useState([]);
     const [page, setPage] = useState(1);
     const userData = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const isAuthUser = getAuthUserInfo();
@@ -31,9 +34,11 @@ const PendingPayments = () => {
         console.log("response: ", response);
         if(response?.error) {
             // display error message
+            showErrorPrompt(response?.error);
         }else{
             if(response?.success){
-               //setExpenseList(response?.expenses);
+                let pendingLists = response?.expenses?.filter((exp) => exp.status === "processing");
+               setExpenseList(pendingLists);
             }
         }
     }
@@ -47,7 +52,7 @@ const PendingPayments = () => {
     return (
         <div className="mt-5 md:mx-5 md:px-3">
             <h1 className="font-bold text-lg m-3 pl-5">Pending Payments</h1>
-            <section class="table__body shadow">
+            <section className="table__body shadow">
                 <table>
                     <thead>
                         <tr>
@@ -60,6 +65,7 @@ const PendingPayments = () => {
                             <th className="p-3 text-sm font-semibold text-left">STATUS</th>
                             <th className="p-3 text-sm font-semibold text-left">DESCRIPTION</th>
                             <th className="p-3 text-sm font-semibold text-left">Bill Receipt</th>
+                            <th className="p-3 text-sm font-semibold text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,11 +75,11 @@ const PendingPayments = () => {
                                 
                                     <tr key={exp?._id}>
                                         <td>{exp?.user?.name}</td>
-                                        <td>{exp?.department}</td>
+                                        <td className="titlecase">{exp?.department}</td>
                                         <td >{transformToDate(exp?.dateOfExpense)}</td>
                                         <td>{currencyConversion(exp?.costOfExpense)}</td>
-                                        <td >{exp?.paymentType}</td>
-                                        <td>{exp?.expenseType}</td>
+                                        <td className="titlecase" >{exp?.paymentType}</td>
+                                        <td className="titlecase">{exp?.expenseType}</td>
                                         <td>
                                             <span className={"px-2 py-1 rounded " +
                                         stausLabel(exp?.status)}>{exp?.status}</span>
@@ -83,6 +89,10 @@ const PendingPayments = () => {
                                             <a target="_blank" href={exp?.uploadFile[0]?.secure_url}>
                                                 <img className="h-5 cursor-pointer" src={FileIcon} alt="fileIcon" />
                                             </a>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => navigate(`/viewexpense/${exp?._id}`)}
+                                                className="px-3 py-1 border border-gray-600 rounded hover:bg-blue-400 hover:border-0 hover:text-white">View</button>
                                         </td>
                                     </tr>
                                 

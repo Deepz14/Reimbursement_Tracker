@@ -7,6 +7,7 @@ import Expenses from './Expenses';
 import ProtectedRoute from "../hooks/useProtectedRoute";
 import AddExpense from "./AddExpense";
 import PendingPayments from "./PendingPayments";
+import ViewExpense from "./ViewExpense";
 
 const Body = () => {
     return (
@@ -18,6 +19,7 @@ const Body = () => {
                         <Route exact path="/" element={<Expenses />}></Route>
                         <Route element={<AddExpense />} path="addexpense"></Route>
                         <Route element={<PendingPayments />} path="pendingPayments"></Route>
+                        <Route element={<ViewExpense />} path="viewexpense/:expId"></Route>
                     </Route>
                     <Route element={<Authentication />} path="auth">
                         <Route index element={<Login />} />

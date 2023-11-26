@@ -2,6 +2,7 @@ import FileIcon from "../../src/file.png";
 import { useEffect, useState } from "react";
 import getAuthUserInfo from "../utils/getAuthUserInfo";
 import { useSelector } from "react-redux";
+import { showErrorPrompt } from  "../utils/notification";
 import { stausLabel, transformToDate, currencyConversion } from "../utils/helper";
 import Pagination from "./Pagination";
 
@@ -32,6 +33,7 @@ const Expenses = () => {
         console.log("response: ", response);
         if(response?.error) {
             // display error message
+            showErrorPrompt(response?.error);
         }else{
             if(response?.success){
                setExpenseList(response?.expenses);
@@ -48,7 +50,7 @@ const Expenses = () => {
     return (
         <div className="mt-5 md:mx-5 md:px-3">
             <h1 className="font-bold text-lg m-3 pl-5"> {getAuthUserInfo()?.role === "employee" ? 'Expenses' : 'All Records'}</h1>
-            <section class="table__body shadow">
+            <section className="table__body shadow">
                 <table>
                     <thead>
                         <tr>
@@ -70,7 +72,7 @@ const Expenses = () => {
                                 
                                     <tr key={exp?._id}>
                                         <td>{exp?.user?.name}</td>
-                                        <td>{exp?.department}</td>
+                                        <td className="titlecase">{exp?.department}</td>
                                         <td >{transformToDate(exp?.dateOfExpense)}</td>
                                         <td>{currencyConversion(exp?.costOfExpense)}</td>
                                         <td className="titlecase">{exp?.paymentType}</td>
