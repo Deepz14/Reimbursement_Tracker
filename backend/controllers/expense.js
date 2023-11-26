@@ -69,7 +69,7 @@ const getAllExpenseRecord = async(req, res) => {
 const getExpenseRecordByID = async(req, res) => {
     try{
         console.log("expense: ", req?.query?.expId)
-        const expense = await Expense.findById(req?.query?.expId);
+        const expense = await Expense.findById(req?.query?.expId).populate("user", "name");
 
         if (!expense) {
             throw new Error('Expense Record not Found');
@@ -88,7 +88,7 @@ const updateExpense = async(req, res) => {
     try{
         console.log("expense: ", req?.query?.expId);
         console.log("expense body: ", req?.body);
-        let expense = await Expense.findById(req?.query?.expId);
+        let expense = await Expense.findById(req?.query?.expId).populate("user", "name");
 
         if (!expense) {
             throw new Error('Expense Record not Found');

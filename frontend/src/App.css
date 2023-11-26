@@ -33,7 +33,7 @@ table tr th:nth-child(3){
 }
 
 table tr th:nth-child(8){
-  width: 200px;
+  width: 175px;
 }
 
 table, th, td {
@@ -168,6 +168,21 @@ div:where(.swal2-container) h2:where(.swal2-title){
 
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
   background-color: #2477f4 !important;
+}
+
+.animate {
+  animation : shimmer 3s infinite;
+  background: linear-gradient(to bottom, #fff 0%, #ffff 0%, #0000000b 15%);
+  background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0 -100px;
+  }
+  100% {
+    background-position: 0 100px;
+  }
 }
 
 @media (max-width: 1000px) {

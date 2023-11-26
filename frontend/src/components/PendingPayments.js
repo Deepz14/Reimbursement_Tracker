@@ -6,8 +6,10 @@ import { useSelector } from "react-redux";
 import { showErrorPrompt } from  "../utils/notification";
 import { stausLabel, transformToDate, currencyConversion } from "../utils/helper";
 import Pagination from "./Pagination";
+import ShimmerUI from "./ShimmerUI";
 
 const PendingPayments = () => {
+    const [loader, setLoader] = useState(false);
     const [expenseList, setExpenseList] = useState([]);
     const [page, setPage] = useState(1);
     const userData = useSelector((state) => state.user);
@@ -16,6 +18,7 @@ const PendingPayments = () => {
     useEffect(() => {
         const isAuthUser = getAuthUserInfo();
         if(userData || isAuthUser?.uId){
+            setLoader(true);
             fetchExpenseList(isAuthUser);
         }
     }, []);
@@ -34,11 +37,13 @@ const PendingPayments = () => {
         console.log("response: ", response);
         if(response?.error) {
             // display error message
+            setLoader(false);
             showErrorPrompt(response?.error);
         }else{
             if(response?.success){
                 let pendingLists = response?.expenses?.filter((exp) => exp.status === "processing");
-               setExpenseList(pendingLists);
+                setLoader(false);
+                setExpenseList(pendingLists);
             }
         }
     }
@@ -49,7 +54,7 @@ const PendingPayments = () => {
         }
     }
 
-    return (
+    return loader ? <ShimmerUI /> : (
         <div className="mt-5 md:mx-5 md:px-3">
             <h1 className="font-bold text-lg m-3 pl-5">Pending Payments</h1>
             <section className="table__body shadow">

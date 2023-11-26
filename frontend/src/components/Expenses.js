@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 import { showErrorPrompt } from  "../utils/notification";
 import { stausLabel, transformToDate, currencyConversion } from "../utils/helper";
 import Pagination from "./Pagination";
+import ShimmerUI from "./ShimmerUI";
 
 
 const Expenses = () => {
+    const [loader, setLoader] = useState(false);
     const [expenseList, setExpenseList] = useState([]);
     const [page, setPage] = useState(1);
     const userData = useSelector((state) => state.user);
@@ -15,6 +17,7 @@ const Expenses = () => {
     useEffect(() => {
         const isAuthUser = getAuthUserInfo();
         if(userData || isAuthUser?.uId){
+            setLoader(true);
             fetchExpenseList(isAuthUser);
         }
     }, []);
@@ -33,9 +36,11 @@ const Expenses = () => {
         console.log("response: ", response);
         if(response?.error) {
             // display error message
+            setLoader(false);
             showErrorPrompt(response?.error);
         }else{
             if(response?.success){
+               setLoader(false);
                setExpenseList(response?.expenses);
             }
         }
@@ -47,7 +52,7 @@ const Expenses = () => {
         }
     }
 
-    return (
+    return loader ? <ShimmerUI /> : (
         <div className="mt-5 md:mx-5 md:px-3">
             <h1 className="font-bold text-lg m-3 pl-5"> {getAuthUserInfo()?.role === "employee" ? 'Expenses' : 'All Records'}</h1>
             <section className="table__body shadow">
@@ -81,7 +86,7 @@ const Expenses = () => {
                                             <span className={"px-2 py-1 rounded " +
                                             stausLabel(exp?.status)}>{exp?.status}</span>
                                         </td>
-                                        <td><p className="desc">{exp?.description}</p></td>
+                                        <td><p className="desc">{exp?.status === "processing" ? exp?.description : exp?.message}</p></td>
                                         <td>
                                             <a target="_blank" href={exp?.uploadFile[0]?.secure_url}>
                                                 <img className="h-5 cursor-pointer" src={FileIcon} alt="fileIcon" />

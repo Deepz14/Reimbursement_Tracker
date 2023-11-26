@@ -57,7 +57,10 @@ const Navbar = () => {
                     {
                         (user?.uId || getUserFromSessionStorage?.uId) && getUserFromSessionStorage?.role === "hr" &&
                         (
-                            <ul className="flex items-center justify-end mr-8 w-[260px] cursor-pointer">
+                            <ul className="flex items-center justify-around mr-8 cursor-pointer">
+                                <li>
+                                    <p onClick={() => navigate("/")} className="px-3 py-1 mr-3 text-sm border border-3 border-gray-500 rounded hover:bg-blue-600 hover:text-white hover:border-0">Home</p>
+                                </li>
                                 <li>
                                     <button onClick={() => navigate("/pendingPayments")} className="px-3 py-1 mr-3 text-sm border border-gray-500 rounded hover:bg-green-600 hover:text-white hover:border-0">Pending Payments</button>
                                 </li>

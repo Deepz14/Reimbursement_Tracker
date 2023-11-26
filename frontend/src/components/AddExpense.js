@@ -16,6 +16,7 @@ const AddExpense = () => {
     useEffect(() => {
         const isAuthUser = getAuthUserInfo();
         if(userData || isAuthUser?.uId){
+            isAuthUser?.role === "hr" && navigate("/");
             setEmpName(isAuthUser?.name);
             setExpenseData({
                 department: '',

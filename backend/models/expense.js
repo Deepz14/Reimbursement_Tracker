@@ -50,6 +50,10 @@ const expenseSchema = new mongoose.Schema({
         type: String,
         default: 'processing'
     },
+    message: {
+        type: String,
+        default: ''
+    },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
